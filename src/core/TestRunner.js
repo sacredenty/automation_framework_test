@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { BrowserManager } = require('./BrowserManager');
-const logger = require('../utils/logger');
+const logger = require('../../utils/logger');
 
 class TestRunner {
   constructor() {

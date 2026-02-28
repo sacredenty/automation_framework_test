@@ -12,7 +12,6 @@ module.exports = defineConfig({
     ['junit', { outputFile: 'reports/test-results.xml' }]
   ],
   use: {
-    baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure'
@@ -30,10 +29,5 @@ module.exports = defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] }
     }
-  ],
-  webServer: {
-    command: 'npm start',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI
-  }
+  ]
 });

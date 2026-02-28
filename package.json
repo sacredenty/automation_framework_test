@@ -9,9 +9,7 @@
     "test:debug": "playwright test --debug",
     "test:ui": "playwright test --ui",
     "install:browsers": "playwright install",
-    "lint": "eslint src/**/*.js",
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "lint": "eslint src/**/*.js"
   },
   "keywords": ["automation", "testing", "frontend", "playwright", "e2e"],
   "author": "",
