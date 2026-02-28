@@ -1,0 +1,35 @@
+{
+  "name": "frontend-automation-framework",
+  "version": "1.0.0",
+  "description": "A comprehensive frontend automation framework using Playwright",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "install:browsers": "playwright install",
+    "lint": "eslint src/**/*.js",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": ["automation", "testing", "frontend", "playwright", "e2e"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@playwright/test": "^1.40.0",
+    "playwright": "^1.40.0",
+    "axios": "^1.6.0",
+    "lodash": "^4.17.21",
+    "winston": "^3.11.0",
+    "js-yaml": "^4.1.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.54.0",
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
