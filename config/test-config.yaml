@@ -1,0 +1,16 @@
+# Optional overlay merged on top of config/test-config.json.
+# Environment variables (see src/config/loadConfig.js) win over both files.
+browser: chromium
+headless: true
+timeout: 30000
+baseUrl: http://127.0.0.1:4173
+demo:
+  port: 4173
+  host: 127.0.0.1
+users:
+  valid:
+    email: ada@example.com
+    password: lightning
+  invalid:
+    email: ada@example.com
+    password: wrong-password

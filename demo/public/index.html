@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumen Widgets</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <strong>Lumen Widgets</strong>
+    <nav>
+      <a href="/">Catalog</a>
+      <a id="nav-login" href="/login">Log in</a>
+      <a id="nav-account" class="hidden" href="/account">Account</a>
+    </nav>
+  </header>
+  <main>
+    <section id="view-home">
+      <h1>Widgets worth keeping</h1>
+      <p class="lede">A tiny catalog used to demo the automation framework.</p>
+      <form class="search" role="search">
+        <label>
+          Search the catalog
+          <input id="search" name="q" type="search">
+        </label>
+        <button type="submit">Search</button>
+      </form>
+      <ul id="catalog" class="catalog" aria-label="Catalog"></ul>
+      <p id="empty" class="hidden">No widgets match that search.</p>
+    </section>
+
+    <section id="view-login" class="hidden panel">
+      <h1>Sign in</h1>
+      <form class="login">
+        <label>
+          Email
+          <input id="email" name="email" type="email" autocomplete="username" required>
+        </label>
+        <label>
+          Password
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit">Sign in</button>
+        <p id="login-error" class="hidden" role="alert"></p>
+      </form>
+    </section>
+
+    <section id="view-account" class="hidden panel">
+      <h1>Your account</h1>
+      <p data-testid="account-greeting" id="greeting"></p>
+      <button id="logout" type="button">Log out</button>
+    </section>
+  </main>
+  <script>
+    const views = {
+      home: document.getElementById('view-home'),
+      login: document.getElementById('view-login'),
+      account: document.getElementById('view-account')
+    };
+    const catalog = document.getElementById('catalog');
+    const empty = document.getElementById('empty');
+    const navLogin = document.getElementById('nav-login');
+    const navAccount = document.getElementById('nav-account');
+
+    function currentUser() {
+      const raw = sessionStorage.getItem('lumen-user');
+      return raw ? JSON.parse(raw) : null;
+    }
+
+    function setUser(user) {
+      if (user) sessionStorage.setItem('lumen-user', JSON.stringify(user));
+      else sessionStorage.removeItem('lumen-user');
+      const signedIn = Boolean(user);
+      navLogin.classList.toggle('hidden', signedIn);
+      navAccount.classList.toggle('hidden', !signedIn);
+    }
+
+    function show(name) {
+      Object.entries(views).forEach(([key, element]) => {
+        element.classList.toggle('hidden', key !== name);
+      });
+    }
+
+    async function renderProducts(query) {
+      const response = await fetch('/api/products?q=' + encodeURIComponent(query || ''));
+      const data = await response.json();
+      catalog.replaceChildren();
+      data.products.forEach((product) => {
+        const item = document.createElement('li');
+        item.innerHTML = '<h2></h2><p class="price"></p>';
+        item.querySelector('h2').textContent = product.name;
+        item.querySelector('.price').textContent = '$' + product.price;
+        catalog.appendChild(item);
+      });
+      empty.classList.toggle('hidden', data.products.length > 0);
+    }
+
+    function route() {
+      const path = location.pathname;
+      setUser(currentUser());
+      if (path === '/login') {
+        show('login');
+        return;
+      }
+      if (path === '/account') {
+        if (!currentUser()) {
+          history.replaceState({}, '', '/login');
+          show('login');
+          return;
+        }
+        document.getElementById('greeting').textContent = 'Signed in as ' + currentUser().name;
+        show('account');
+        return;
+      }
+      const params = new URLSearchParams(location.search);
+      document.getElementById('search').value = params.get('q') || '';
+      show('home');
+      renderProducts(params.get('q') || '');
+    }
+
+    document.querySelector('form.search').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const query = document.getElementById('search').value.trim();
+      const next = query ? '/?q=' + encodeURIComponent(query) : '/';
+      history.pushState({}, '', next);
+      route();
+    });
+
+    document.querySelector('form.login').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const error = document.getElementById('login-error');
+      error.classList.add('hidden');
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: document.getElementById('email').value,
+          password: document.getElementById('password').value
+        })
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        error.textContent = data.error;
+        error.classList.remove('hidden');
+        return;
+      }
+      setUser(data);
+      history.pushState({}, '', '/account');
+      route();
+    });
+
+    document.getElementById('logout').addEventListener('click', () => {
+      setUser(null);
+      history.pushState({}, '', '/');
+      route();
+    });
+
+    document.querySelector('nav').addEventListener('click', (event) => {
+      const link = event.target.closest('a');
+      if (!link) return;
+      event.preventDefault();
+      history.pushState({}, '', link.getAttribute('href'));
+      route();
+    });
+
+    window.addEventListener('popstate', route);
+    route();
+  </script>
+</body>
+</html>

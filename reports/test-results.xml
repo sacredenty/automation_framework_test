@@ -1,20 +1,108 @@
-<testsuites id="" name="" tests="6" failures="0" skipped="0" errors="0" time="5.730226000000001">
-<testsuite name="example.spec.js" timestamp="2026-02-28T02:44:04.107Z" hostname="chromium" tests="2" failures="0" skipped="0" time="6.687" errors="0">
-<testcase name="Example Tests › should load homepage" classname="example.spec.js" time="3.336">
+<testsuites id="" name="" tests="8" failures="6" skipped="0" errors="0" time="2.8072450000000004">
+<testsuite name="specs/api.spec.js" timestamp="2026-11-09T01:23:21.651Z" hostname="chromium" tests="2" failures="0" skipped="0" time="0.213" errors="0">
+<testcase name="Shop API › returns the catalog and a filtered search" classname="specs/api.spec.js" time="0.12">
 </testcase>
-<testcase name="Example Tests › should search for content" classname="example.spec.js" time="3.351">
-</testcase>
-</testsuite>
-<testsuite name="example.spec.js" timestamp="2026-02-28T02:44:04.107Z" hostname="firefox" tests="2" failures="0" skipped="0" time="2.812" errors="0">
-<testcase name="Example Tests › should load homepage" classname="example.spec.js" time="1.311">
-</testcase>
-<testcase name="Example Tests › should search for content" classname="example.spec.js" time="1.501">
+<testcase name="Shop API › authenticates the configured user and rejects everyone else" classname="specs/api.spec.js" time="0.093">
 </testcase>
 </testsuite>
-<testsuite name="example.spec.js" timestamp="2026-02-28T02:44:04.107Z" hostname="webkit" tests="2" failures="0" skipped="0" time="2.241" errors="0">
-<testcase name="Example Tests › should load homepage" classname="example.spec.js" time="1.134">
+<testsuite name="specs/home.spec.js" timestamp="2026-11-09T01:23:21.651Z" hostname="chromium" tests="3" failures="3" skipped="0" time="0.023" errors="0">
+<testcase name="Catalog › shows the shop heading and every product" classname="specs/home.spec.js" time="0.006">
+<failure message="home.spec.js:4:3 shows the shop heading and every product" type="FAILURE">
+<![CDATA[  [chromium] › specs/home.spec.js:4:3 › Catalog › shows the shop heading and every product ─────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/chris/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
 </testcase>
-<testcase name="Example Tests › should search for content" classname="example.spec.js" time="1.107">
+<testcase name="Catalog › filters the catalog from the search box" classname="specs/home.spec.js" time="0.008">
+<failure message="home.spec.js:12:3 filters the catalog from the search box" type="FAILURE">
+<![CDATA[  [chromium] › specs/home.spec.js:12:3 › Catalog › filters the catalog from the search box ─────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/chris/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Catalog › shows an empty state when nothing matches" classname="specs/home.spec.js" time="0.009">
+<failure message="home.spec.js:20:3 shows an empty state when nothing matches" type="FAILURE">
+<![CDATA[  [chromium] › specs/home.spec.js:20:3 › Catalog › shows an empty state when nothing matches ───────
+
+    Error: browserType.launch: Executable doesn't exist at /home/chris/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="specs/login.spec.js" timestamp="2026-11-09T01:23:21.651Z" hostname="chromium" tests="3" failures="3" skipped="0" time="0.024" errors="0">
+<testcase name="Sign in › signs in with the configured user and can log out" classname="specs/login.spec.js" time="0.008">
+<failure message="login.spec.js:4:3 signs in with the configured user and can log out" type="FAILURE">
+<![CDATA[  [chromium] › specs/login.spec.js:4:3 › Sign in › signs in with the configured user and can log out 
+
+    Error: browserType.launch: Executable doesn't exist at /home/chris/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Sign in › rejects a bad password" classname="specs/login.spec.js" time="0.007">
+<failure message="login.spec.js:15:3 rejects a bad password" type="FAILURE">
+<![CDATA[  [chromium] › specs/login.spec.js:15:3 › Sign in › rejects a bad password ─────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/chris/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Sign in › sends anonymous visitors from account back to sign in" classname="specs/login.spec.js" time="0.009">
+<failure message="login.spec.js:22:3 sends anonymous visitors from account back to sign in" type="FAILURE">
+<![CDATA[  [chromium] › specs/login.spec.js:22:3 › Sign in › sends anonymous visitors from account back to sign in 
+
+    Error: browserType.launch: Executable doesn't exist at /home/chris/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
 </testcase>
 </testsuite>
 </testsuites>

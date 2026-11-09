@@ -5,26 +5,37 @@
   "main": "src/index.js",
   "scripts": {
     "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",
     "test:ui": "playwright test --ui",
+    "test:unit": "node tests/unit/catalog.test.js && node tests/unit/loadConfig.test.js",
+    "demo": "node demo/server.js",
+    "report": "playwright show-report reports/html",
     "install:browsers": "playwright install",
-    "lint": "eslint src/**/*.js"
+    "lint": "node node_modules/eslint/bin/eslint.js ."
   },
-  "keywords": ["automation", "testing", "frontend", "playwright", "e2e"],
+  "keywords": [
+    "automation",
+    "testing",
+    "frontend",
+    "playwright",
+    "e2e"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@playwright/test": "^1.40.0",
-    "playwright": "^1.40.0",
     "axios": "^1.6.0",
-    "lodash": "^4.17.21",
-    "winston": "^3.11.0",
+    "dotenv": "^16.3.1",
     "js-yaml": "^4.1.0",
-    "dotenv": "^16.3.1"
+    "lodash": "^4.17.21",
+    "playwright": "^1.40.0",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
-    "eslint": "^8.54.0",
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
     "nodemon": "^3.0.2"
   },
   "engines": {

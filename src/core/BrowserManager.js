@@ -1,6 +1,8 @@
 const { chromium, firefox, webkit } = require('playwright');
 const logger = require('../../utils/logger');
 
+const LAUNCHERS = { chromium, firefox, webkit };
+
 class BrowserManager {
   constructor() {
     this.browsers = new Map();
@@ -9,24 +11,14 @@ class BrowserManager {
   }
 
   async launchBrowser(browserType = 'chromium', options = {}) {
-    const browserId = `${browserType}_${Date.now()}`;
-    
+    const launcher = LAUNCHERS[browserType.toLowerCase()];
+    if (!launcher) {
+      throw new Error(`Unsupported browser type: ${browserType}`);
+    }
+
+    const browserId = `${browserType}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     try {
-      let browser;
-      switch (browserType.toLowerCase()) {
-        case 'chromium':
-          browser = await chromium.launch(options);
-          break;
-        case 'firefox':
-          browser = await firefox.launch(options);
-          break;
-        case 'webkit':
-          browser = await webkit.launch(options);
-          break;
-        default:
-          throw new Error(`Unsupported browser type: ${browserType}`);
-      }
-      
+      const browser = await launcher.launch(options);
       this.browsers.set(browserId, browser);
       logger.info(`Browser launched: ${browserType} with ID: ${browserId}`);
       return { browserId, browser };
@@ -41,39 +33,45 @@ class BrowserManager {
     if (!browser) {
       throw new Error(`Browser with ID ${browserId} not found`);
     }
-    
+
     const context = await browser.newContext(contextOptions);
     const contextId = `${browserId}_context_${Date.now()}`;
-    this.contexts.set(contextId, context);
+    this.contexts.set(contextId, { context, browserId });
     logger.info(`Context created: ${contextId}`);
     return { contextId, context };
   }
 
   async createPage(contextId) {
-    const context = this.contexts.get(contextId);
-    if (!context) {
+    const entry = this.contexts.get(contextId);
+    if (!entry) {
       throw new Error(`Context with ID ${contextId} not found`);
     }
-    
-    const page = await context.newPage();
+
+    const page = await entry.context.newPage();
     const pageId = `${contextId}_page_${Date.now()}`;
-    this.pages.set(pageId, page);
+    this.pages.set(pageId, { page, contextId });
     logger.info(`Page created: ${pageId}`);
     return { pageId, page };
   }
 
   async closeBrowser(browserId) {
     const browser = this.browsers.get(browserId);
-    if (browser) {
-      await browser.close();
-      this.browsers.delete(browserId);
-      logger.info(`Browser closed: ${browserId}`);
+    if (!browser) return;
+
+    for (const [pageId, entry] of this.pages) {
+      if (entry.contextId.startsWith(browserId)) this.pages.delete(pageId);
     }
+    for (const [contextId, entry] of this.contexts) {
+      if (entry.browserId === browserId) this.contexts.delete(contextId);
+    }
+
+    await browser.close();
+    this.browsers.delete(browserId);
+    logger.info(`Browser closed: ${browserId}`);
   }
 
   async closeAllBrowsers() {
-    const closePromises = Array.from(this.browsers.values()).map(browser => browser.close());
-    await Promise.all(closePromises);
+    await Promise.all(Array.from(this.browsers.values()).map((browser) => browser.close()));
     this.browsers.clear();
     this.contexts.clear();
     this.pages.clear();
